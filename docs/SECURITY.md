@@ -30,3 +30,6 @@ Use only user-owned, authorised or appropriately licensed media and metadata. Ke
 
 ## Security tests
 Unit tests for malicious strings, invalid IDs, malformed manifests and boundary values. Integration tests for unauthorised reads/writes, expired credentials, CSRF, conflict rejection, failed uploads, rollback, and offline cache eviction. Do not run private integration tests in public CI without isolated disposable fixtures.
+
+## Synthetic GitHub Pages demo boundary (18 November 2026)
+A separate GitHub Pages workflow may publish only the in-memory fictional catalogue. The static site is fully public and has no login or protected route. Any private anime/episode metadata, user watch history, OAuth token, API key or licensed video must stay out of its source/build. Do not change this boundary implicitly when adding private persistence. The release gate checks synthetic markers but is not a substitute for human code review of sensitive data changes. See [demo preview runbook](DEMO_PREVIEW.md).
