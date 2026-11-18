@@ -1,21 +1,27 @@
-# Test Strategy and Quality Gates
+# Test strategy and quality gates
 
 ## Commands
-`npm run typecheck`, `npm test`, `npm run build`. The initial workflow runs all three on pull requests and master; no browser E2E or deployed smoke exists yet. Do not claim they do.
+Node 22+: `npm ci`, `npm run typecheck`, `npm test`, `npm run build`, `npx playwright install chromium`, `npm run test:e2e`. CI verifies typecheck, Vitest and a real Chromium run with keyboard and 320/375/390/768/1280px viewport tests. See [validation status](VALIDATION_STATUS_2026-11-18.md) for exact results.
 
-## Testing layers
-1. **Pure unit:** search, identity, sorting, status transformations, AnimeEntry, AnimeSeason, AnimeEpisode, AnimeProgress, invalid/empty inputs and Unicode names.
-2. **Component:** keyboard and screen-reader labels, focus order, 320–390px overflow, 768px tablet and desktop layouts. Use deterministic fixtures with no private media.
-3. **Repository adapter:** CRUD boundaries, lossless migrations, duplicate IDs, stale revisions, injected errors, cancellation and retries.
-4. **Privacy/security:** redaction, invalid input, absent/expired session, forbidden mutations, path traversal, oversized payloads and unsafe URLs.
-5. **Offline and sync:** cold offline launch after a controlled cache, browser eviction, two-device conflicting edits, tombstone protection, correct rehydration and recovery.
-6. **Domain-specific:** Tests for specials, missing episodes, season transitions, watched/unwatched toggling, and progress aggregation without marking unseen episodes watched.
+## Unit coverage added
+- Canonical immutable anime/season/episode IDs and cross-series collision detection.
+- Out-of-order episode rows, non-unique printed numbers, OVAs, specials and re-release links.
+- Missing episodes, unknown official totals and distinct series sharing a title.
+- Watch/unwatch individual episodes without filling gaps, duplicate set entries, invalid IDs and other-series mutation rejection.
+- Explicit status changes; unwatching while complete prevents stale complete indication, but never backfills.
+- Per-series known watched counts, unknown progress IDs retained for future reconciliation.
+- Ratings within 1–10, tag de-duplication and comments handled as React text.
 
-## Acceptance gates for a feature PR
-Every new path has a positive, negative and boundary case. Tests fail on regressions and must not require external tokens. Assertions verify user-visible behaviour, not just DOM presence. Add a reproducible manual plan for gestures/real devices where automation is not possible.
+## Automated browser coverage (Playwright; 9 passed on run 44317525755)
+1. Chromium checks for horizontal overflow at 320, 375, 390, 768 and 1280px. Manual contrast and touch-target review is still required.
+2. Tab through the catalogue, choose series by Enter/Space, change filters by keyboard, open each season via Enter/Space, toggle checkboxes and edit notes. Focus rings must be visible.
+3. Confirm a filtered-out selected series does not leak data across series; refresh resets all in-memory edits as clearly stated.
+4. Verify screen-reader announcement for status, checkboxes, counts and empty results. Check high contrast and reduced motion.
+5. Simulate unknown episode totals, absent episodes and re-releases. Confirm no network requests for metadata, images or private providers.
 
-## Release gates (future)
-Successful locked install, typecheck, tests, build, vulnerability review, browser mobile/desktop checks, private endpoint auth tests, performance review, real-device sign-off and rollback verification. A green CI alone does not authorise deployment. Record the build SHA and scope.
+## Future release gates
+Runtime import validation, error/loading/offline behaviour, real-device/browser automation, revision-conflict integration tests, authorisation/CSRF/security tests, dependency audit and backup restore. No deployment without owner approval.
 
-## Risk register
-Initial scaffolds intentionally omit persistence, authentication, image/video delivery, end-to-end tests, production CSP configuration and provider integrations. These omissions are documented, not hidden.
+Vitest is deliberately scoped to `src/` and Playwright to `e2e/`; never let the two runners discover each other's tests.
+
+Evidence: [GitHub Actions 44317525755](https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44317525755). An automated viewport pass does not substitute for manual device and assistive-technology verification.

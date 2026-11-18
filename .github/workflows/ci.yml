@@ -1,4 +1,4 @@
-name: Verify scaffold
+name: Verify anime catalogue
 on:
   push:
     branches: [master]
@@ -7,14 +7,16 @@ permissions:
   contents: read
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      # No lockfile on the initial scaffold. Commit one and switch to npm ci.
-      - run: npm install --no-audit --no-fund
+          cache: npm
+      - run: npm ci --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - run: npx playwright install chromium
+      - run: npm run test:e2e

@@ -11,3 +11,6 @@ coverage/
 .vscode/
 *.log
 *.tsbuildinfo
+playwright-report/
+test-results/
+blob-report/

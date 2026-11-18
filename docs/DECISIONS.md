@@ -25,3 +25,11 @@
 
 ### ADR template
 Create `docs/adr/NNN-title.md` with: Status; Date; Problem; Options and cost; Decision; Rationale; Data/security impact; Compatibility/migration; Rollback; Tests; Owner approval. Never silently re-decide an accepted ADR.
+
+## New proposals (18 November 2026)
+- [ADR-006: private storage and authentication options](adr/006-storage-and-auth-options.md), **proposed**, no approved integration.
+- [ADR-007: lawful metadata providers, rights and attribution](adr/007-metadata-and-artwork-provider-options.md), **proposed**, no approved integration.
+- [RFC-001: potential stateless reusable library UI](RFC_SHARED_UI_001.md), **candidate**, no cross-repo change.
+
+## ADR-003 implementation note
+The synthetic branch implements pure episode-set transitions and explicit status commands. This does not constitute approval of a persisted schema or automatic completion inference.

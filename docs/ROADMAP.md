@@ -1,41 +1,35 @@
-# Anime Roadmap and Definition of Done
+# Anime Library milestone roadmap
 
-## Phase 0: safe foundation (current)
-- [x] Repository created private, with `master`.
-- [x] TypeScript/React/Vite scaffold and responsive, honest no-data UI.
-- [x] Domain model and local search tests.
-- [x] CI typecheck/test/build (no deploy).
-- [x] Agent, architecture, security, contracts and operations documentation.
-- [ ] Generate and commit `package-lock.json`; move CI to `npm ci`.
-- [ ] Run a full local/CI acceptance pass and record the SHA.
+## Milestone 0: Baseline scaffold
+- [x] React + TypeScript and independent repo
+- [x] GitHub workflow declaration
+- [x] Read-only local search
+- [ ] Resolve GitHub runner preflight failure and verify executed CI
+- [x] Generate authentic Node 22 lockfile and switch to npm ci
 
-## Phase 1: read-only useful catalogue
-- [ ] Approve stable identity rules, runtime parser and documented schema migrations.
-- [ ] Build local fixture-powered catalogue, detail view and status/rating/tag filters.
-- [ ] Add responsive and accessibility tests; persist nothing sensitive yet.
-- [ ] Catalogue views and explicit watchlist state transitions on in-memory fixtures. Define episode identity/numbering and canonical season mapping before storage sync.
-- [ ] Demonstrate no accidental network calls to protected providers.
+## Milestone 1: Synthetic anime watch tracker (feature branch, automated CI passing)
+- [x] Stable IDs for anime/season/episode, specials, OVAs, ambiguous printed numbers and remasters
+- [x] Explicit immutable progress transitions and unit tests
+- [x] Three fictional series, multi-season details, watched toggles and status/genre/search filters
+- [x] In-memory rating, comment, tags and collections
+- [x] Mobile-responsive styles and visible keyboard focus
+- [x] Execute Node 22 typecheck, 13 unit tests, build and 9 Chromium browser/viewport tests
+- [ ] Peer review and merge after manual accessibility review and owner acceptance
 
-## Phase 2: private personal data
-- [ ] Select private persistence backend and per-app authentication after a security ADR.
-- [ ] Add input validation and per-record revision-guarded writes.
-- [ ] Local read/write, backup, import/export and explicit conflict handling.
-- [ ] Proper empty/loading/offline/error states with recovery.
+## Milestone 2: Honest persistence design
+- [ ] Approve storage/auth and metadata ADRs
+- [ ] Runtime import schema, quotas, error typing, revision control, backups and restores
+- [ ] IndexedDB/offline caching policy and two-device conflict tests
 
-## Phase 3: domain experience
-- [ ] An anime may have alternate titles, OVAs, specials, separate seasons and numbering conventions. Episode labels are not global identifiers; watched status is per stable episode ID, not a single unreliable last-watched counter.
-- [ ] Tests for specials, missing episodes, season transitions, watched/unwatched toggling, and progress aggregation without marking unseen episodes watched.
-- [ ] Verify phone/PC performance and storage quotas.
+## Milestone 3: Approved private account and catalogue
+- [ ] Per-app session with server-side access checks; no shared cookie assumption
+- [ ] Owner-approved metadata access with attribution and rights controls
+- [ ] Private watched history and sync without forced deployment
+- [ ] Verified error, loading, empty and offline states
 
-## Phase 4: ecosystem integration
-- [ ] Evaluate stable Shared Core exports and version/pin if objectively useful.
-- [ ] Configure verified Personal Hub link; app still works independently.
-- [ ] Consider opt-in cross-media tagging/search only with an approved privacy model.
+## Milestone 4: Ecosystem and release
+- [ ] Cross-app Shared Core extraction only when proven useful
+- [ ] Optional parent Hub link; always standalone
+- [ ] Staging, full browser/security checks, rollback and owner release approval
 
-## Phase 5: controlled production
-- [ ] Separate staging and production origins, secure server secrets and manual deploy approval.
-- [ ] Full E2E, privacy, offline, backup restore, security and performance release gates.
-- [ ] Owner signs off on any public visibility or deployment.
-
-## Out of scope until separately approved
-No streaming or download claims until legally authorised providers, rights and terms are reviewed. Metadata-provider APIs require separate approval and configuration. No unreviewed bulk migrations, unlicensed content acquisition or automatic deployment. The scaffold must not be marketed as a complete reader/tracker.
+No streaming, scraping, paid APIs, real private data, media assets or cloud deployment is authorised by this roadmap.

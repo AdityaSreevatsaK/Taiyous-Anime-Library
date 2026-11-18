@@ -19,7 +19,7 @@ Taiyous-Anime-Library (THIS REPO)
 **Ownership:** no runtime backend call to the hub is required. The hub is merely a route selector; if it is offline, this application still runs. Shared Core code may eventually be consumed as versioned packages, never as a mutable sibling-repo source import.
 
 ## Current implementation vs intended shape
-Current: `src/domain/types.ts` defines AnimeEntry, AnimeSeason, AnimeEpisode, AnimeProgress; `searchCatalogue` is a pure Unicode-normalised title/alias filter; `src/data/catalogue.ts` is explicitly empty; `App.tsx` renders an honest no-data catalogue; CI builds locally. There is **no** media import, cloud API, login, parser, transcoder, player, tracking persistence, licence verification or backend.
+Current feature branch: typed anime/season/episode/progress contracts, globally unique episode identity checks, pure status and episode-set transformations, a fictional three-series catalogue and an in-memory interactive React journal. Vitest plus Playwright Chromium validate the synthetic UI on a Node.js 22 GitHub Actions runner. No real records survive a refresh. There is **no** media import, cloud API, login, persistent user tracking, transcoder, player, licence verification service or backend.
 
 Intended components (do not treat them as shipped):
 1. **Domain:** stable media identities, AnimeEntry, AnimeSeason, AnimeEpisode, AnimeProgress, validation, read-only selectors, progress transformations.

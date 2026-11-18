@@ -1,25 +1,27 @@
-# Scaffolding Validation Status (18 November 2026)
+# Verification record: Anime Library, 18 November 2026
 
-## What was actually committed
-anime domain, local search and initial UI. Watchlists, episode progress storage and metadata providers are not implemented.
-All documentation and source changes are on branch `chore/ecosystem-foundation-20261118` (with a PR); inspect `master` for merge state.
+## Current accepted automated evidence
+- Working branch: `feature/anime-episode-tracker-20261118`.
+- Passing code SHA: `f1823f5716cf062c02e4cac33ee11f843c1208e6`.
+- [GitHub Actions run 44317525755](https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44317525755): **SUCCESS**, all nine main quality steps completed.
+- Node.js 22, `npm ci --no-audit --no-fund` **passed** using the committed authentic npm lockfile.
+- `npm run typecheck` **passed**.
+- `npm test` **passed**: 13 Vitest tests in 3 test files.
+- `npm run build` **passed**: Vite 6.4.6, 518ms compile, 157.39kB JS / 50.57kB gzip and 8.16kB CSS / 2.64kB gzip.
+- `npx playwright install chromium` **passed** on Ubuntu 24.04.
+- `npm run test:e2e` **passed**: 9 real Chromium tests in 2.8s, including keyboard selection, no auto-backfill, specials, filters and viewport overflow at 320/375/390/768/1280px.
 
-## Automated checks: blocked before execution
-GitHub Actions marked the PR checks **failure** on 18 November 2026 and returned **zero executed job steps / no runner logs**. That means **no typecheck, test, build or security check ran**. It is misleading to call these code/test failures or passing checks. The underlying scheduling/permissions/billing cause has not been verified by this session.
+## Root cause history and fixes
+- Initial scaffold failures pre-dated any runner step; later GitHub Actions runs executed normally. The precise original account policy cause was not independently confirmed.
+- First Playwright attempt was discovered by Vitest and failed. The Vitest script now runs only src tests.
+- Ubuntu-latest resolved to Ubuntu 26.04, unsupported by Playwright 1.56.1. CI pins Ubuntu 24.04.
+- A Playwright install with --with-deps stalled in a later attempt; the final passing run uses system-provided dependencies plus a pinned Chromium download.
+- A real Node 22 runner generated package-lock.json (lockfileVersion 3, 142 package entries), which was committed before switching CI to npm ci. No lockfile was invented.
 
-Example run: https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44255816427
+## Outstanding non-automated acceptance
+- Manual screen-reader review, focus order using real assistive technology, touch-target and contrast checks on actual mobile devices.
+- Security checks for **future** private APIs, backup/restore, CSRF, storage conflicts and malicious import validation are unimplemented until the corresponding integrations are authorised.
+- No authentication, cloud persistence, metadata provider access, real posters, streaming or production deployment exists.
 
-## Required next verification
-1. In GitHub Actions inspect the failed job's annotations and repository/account Actions usage, runner and billing settings. Only the owner can view some account-level details.
-2. Restore runner execution without disabling security gates. Re-run the PR workflow.
-3. Generate and commit an npm lockfile (`npm install` in a trusted clone), switch CI to `npm ci` and re-run all three scripts.
-4. Fix genuine code/type/test problems surfaced by the first completed run, then record evidence and SHA.
-5. Verify UI on a narrow mobile and desktop viewport before a production claim.
-6. Reinspect actual repo state; this status file is a dated snapshot, not permanent proof of failure.
-
-## Other known limitations
-- No private storage/auth, production deployment, image/video playback or provider integrations exist in the new scaffold.
-- Shared Core's workspace packages are not published and cannot be imported by independent repos yet.
-- GitHub About descriptions/topics have a documented, owner-run helper but are not programmatically applied.
-
-Do not enable automatic release or weaken a required quality gate merely to turn this result green.
+## Merge policy
+PR #2 can be reviewed against these actual results. Do not conflate the passing synthetic-app CI with production readiness or approval to connect private accounts. Keep the app independent of the Hub.
