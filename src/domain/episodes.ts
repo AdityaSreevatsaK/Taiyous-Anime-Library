@@ -37,3 +37,19 @@ export function episodesFor(entry: AnimeEntry): AnimeEpisode[] {
 export function findEpisode(entry: AnimeEntry, episodeId: string): AnimeEpisode | undefined {
   return episodesFor(entry).find(episode => episode.id === episodeId);
 }
+/** Detect collisions across different series before any eventual import. */
+export function validateCatalogue(entries: readonly AnimeEntry[]): string[] {
+  const issues: string[] = [];
+  const animeIds = new Set<string>();
+  const episodeIds = new Set<string>();
+  for (const entry of entries) {
+    if (animeIds.has(entry.id)) issues.push('Duplicate anime ID: ' + entry.id);
+    animeIds.add(entry.id);
+    issues.push(...validateAnimeEntry(entry).map(issue => entry.id + ': ' + issue));
+    for (const episode of episodesFor(entry)) {
+      if (episodeIds.has(episode.id)) issues.push('Duplicate global episode ID: ' + episode.id);
+      episodeIds.add(episode.id);
+    }
+  }
+  return issues;
+}

@@ -1,21 +1,23 @@
-# Test Strategy and Quality Gates
+# Test strategy and quality gates
 
 ## Commands
-`npm run typecheck`, `npm test`, `npm run build`. The initial workflow runs all three on pull requests and master; no browser E2E or deployed smoke exists yet. Do not claim they do.
+Node 22+: `npm install`, `npm run typecheck`, `npm test`, `npm run build`. Commit a genuine generated lockfile before switching to `npm ci`. The branch has no verified passing CI or browser E2E yet; see [validation status](VALIDATION_STATUS_2026-11-18.md).
 
-## Testing layers
-1. **Pure unit:** search, identity, sorting, status transformations, AnimeEntry, AnimeSeason, AnimeEpisode, AnimeProgress, invalid/empty inputs and Unicode names.
-2. **Component:** keyboard and screen-reader labels, focus order, 320–390px overflow, 768px tablet and desktop layouts. Use deterministic fixtures with no private media.
-3. **Repository adapter:** CRUD boundaries, lossless migrations, duplicate IDs, stale revisions, injected errors, cancellation and retries.
-4. **Privacy/security:** redaction, invalid input, absent/expired session, forbidden mutations, path traversal, oversized payloads and unsafe URLs.
-5. **Offline and sync:** cold offline launch after a controlled cache, browser eviction, two-device conflicting edits, tombstone protection, correct rehydration and recovery.
-6. **Domain-specific:** Tests for specials, missing episodes, season transitions, watched/unwatched toggling, and progress aggregation without marking unseen episodes watched.
+## Unit coverage added
+- Canonical immutable anime/season/episode IDs and cross-series collision detection.
+- Out-of-order episode rows, non-unique printed numbers, OVAs, specials and re-release links.
+- Missing episodes, unknown official totals and distinct series sharing a title.
+- Watch/unwatch individual episodes without filling gaps, duplicate set entries, invalid IDs and other-series mutation rejection.
+- Explicit status changes; unwatching while complete prevents stale complete indication, but never backfills.
+- Per-series known watched counts, unknown progress IDs retained for future reconciliation.
+- Ratings within 1–10, tag de-duplication and comments handled as React text.
 
-## Acceptance gates for a feature PR
-Every new path has a positive, negative and boundary case. Tests fail on regressions and must not require external tokens. Assertions verify user-visible behaviour, not just DOM presence. Add a reproducible manual plan for gestures/real devices where automation is not possible.
+## Manual accessibility matrix (pending)
+1. At 320, 375, 390, 768 and 1280px check no horizontal overflow, readable title/filters, visible form labels and 44px targets where practical.
+2. Tab through the catalogue, choose series by Enter/Space, change filters by keyboard, open each season via Enter/Space, toggle checkboxes and edit notes. Focus rings must be visible.
+3. Confirm a filtered-out selected series does not leak data across series; refresh resets all in-memory edits as clearly stated.
+4. Verify screen-reader announcement for status, checkboxes, counts and empty results. Check high contrast and reduced motion.
+5. Simulate unknown episode totals, absent episodes and re-releases. Confirm no network requests for metadata, images or private providers.
 
-## Release gates (future)
-Successful locked install, typecheck, tests, build, vulnerability review, browser mobile/desktop checks, private endpoint auth tests, performance review, real-device sign-off and rollback verification. A green CI alone does not authorise deployment. Record the build SHA and scope.
-
-## Risk register
-Initial scaffolds intentionally omit persistence, authentication, image/video delivery, end-to-end tests, production CSP configuration and provider integrations. These omissions are documented, not hidden.
+## Future release gates
+Runtime import validation, error/loading/offline behaviour, real-device/browser automation, revision-conflict integration tests, authorisation/CSRF/security tests, dependency audit and backup restore. No deployment without owner approval.

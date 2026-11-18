@@ -8,7 +8,7 @@ export function emptyProgress(animeId: string): AnimeProgress {
 /** Mutate exactly one episode in an immutable set. Never infer that unviewed episodes were watched. */
 export function markEpisode(
   progress: AnimeProgress, entry: AnimeEntry, episodeId: string, watched: boolean,
-  now = new Date().toISOString(),
+  now: string,
 ): AnimeProgress {
   if (progress.animeId !== entry.id) throw new Error('Progress belongs to a different series');
   if (!findEpisode(entry, episodeId)) throw new RangeError('Unknown episode ID');
@@ -22,7 +22,7 @@ export function markEpisode(
 }
 
 /** Status changes are explicit. Marking complete NEVER backfills unseen episodes. */
-export function setWatchStatus(progress: AnimeProgress, status: AnimeWatchStatus, now = new Date().toISOString()): AnimeProgress {
+export function setWatchStatus(progress: AnimeProgress, status: AnimeWatchStatus, now: string): AnimeProgress {
   if (progress.status === status) return progress;
   return { ...progress, status, updatedAt: now };
 }
@@ -30,7 +30,7 @@ export function setWatchStatus(progress: AnimeProgress, status: AnimeWatchStatus
 export function updateAnnotations(
   progress: AnimeProgress,
   change: { rating?: number | null; comment?: string; tags?: string[]; collectionIds?: string[] },
-  now = new Date().toISOString(),
+  now: string,
 ): AnimeProgress {
   if (change.rating !== undefined && change.rating !== null &&
     (!Number.isInteger(change.rating) || change.rating < 1 || change.rating > 10))
@@ -51,7 +51,7 @@ export function summariseProgress(entry: AnimeEntry, progress: AnimeProgress) {
   const valid = new Set(episodes.map(episode => episode.id));
   const watched = new Set(progress.watchedEpisodeIds);
   const watchedKnown = episodes.filter(episode => watched.has(episode.id));
-  const regular = episodes.filter(episode => episode.kind === 'regular');
+  const regular = episodes.filter(episode => episode.kind === 'regular' && !episode.editionOfEpisodeId);
   const totals = entry.seasons.map(season => season.regularEpisodeTotal);
   const expectedRegular = totals.every(total => total !== null)
     ? totals.reduce<number>((sum, total) => sum + (total ?? 0), 0) : null;

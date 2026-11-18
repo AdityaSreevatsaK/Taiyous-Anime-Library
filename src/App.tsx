@@ -122,7 +122,7 @@ export default function App() {
           </div>
           <div className="status-section">
             <label htmlFor="watch-status">Watching status</label>
-            <select id="watch-status" value={current.status} onChange={event => changeProgress(selected.id, state => setWatchStatus(state, event.target.value as AnimeWatchStatus))}>
+            <select id="watch-status" value={current.status} onChange={event => changeProgress(selected.id, state => setWatchStatus(state, event.target.value as AnimeWatchStatus, new Date().toISOString()))}>
               {statuses.map(status => <option key={status} value={status}>{status[0]!.toUpperCase() + status.slice(1)}</option>)}
             </select>
           </div>
@@ -140,7 +140,7 @@ export default function App() {
                   const checked = current.watchedEpisodeIds.includes(episode.id);
                   return <li key={episode.id} className={checked ? 'watched' : ''}>
                     <label className="episode-row"><input type="checkbox" checked={checked}
-                      onChange={event => changeProgress(selected.id, state => markEpisode(state, selected, episode.id, event.target.checked))} />
+                      onChange={event => changeProgress(selected.id, state => markEpisode(state, selected, episode.id, event.target.checked, new Date().toISOString()))} />
                       <span className="episode-title"><strong>{episode.title}</strong><small>
                         {episode.kind === 'regular' ? 'Episode' : episode.kind.toUpperCase()}
                         {episode.episodeNumber !== undefined ? ' ' + episode.episodeNumber : ''}
@@ -158,25 +158,25 @@ export default function App() {
             <h3>Personal notes</h3>
             <div className="notes-grid">
               <label>My rating
-                <select value={current.rating ?? ''} onChange={event => changeProgress(selected.id, state => updateAnnotations(state, { rating: event.target.value ? Number(event.target.value) : null }))}>
+                <select value={current.rating ?? ''} onChange={event => changeProgress(selected.id, state => updateAnnotations(state, { rating: event.target.value ? Number(event.target.value) : null }, new Date().toISOString()))}>
                   <option value="">Unrated</option>
                   {Array.from({ length: 10 }, (_, index) => index + 1).map(rating => <option key={rating} value={rating}>{rating}/10</option>)}
                 </select>
               </label>
               <label>Comment
-                <textarea rows={3} maxLength={2000} value={current.comment ?? ''} onChange={event => changeProgress(selected.id, state => updateAnnotations(state, { comment: event.target.value }))} placeholder="Your thoughts on this story…" />
+                <textarea rows={3} maxLength={2000} value={current.comment ?? ''} onChange={event => changeProgress(selected.id, state => updateAnnotations(state, { comment: event.target.value }, new Date().toISOString()))} placeholder="Your thoughts on this story…" />
               </label>
               <div className="tags-editor">
                 <label htmlFor="tags">Personal tags (comma-separated)</label>
                 <div className="tags-row"><input id="tags" value={tagDraft} maxLength={250} onChange={event => setTagDraft(event.target.value)} />
-                  <button type="button" className="save-tags" onClick={() => changeProgress(selected.id, state => updateAnnotations(state, { tags: tagDraft.split(',') }))}>Save tags</button></div>
+                  <button type="button" className="save-tags" onClick={() => changeProgress(selected.id, state => updateAnnotations(state, { tags: tagDraft.split(',') }, new Date().toISOString()))}>Save tags</button></div>
               </div>
               <fieldset className="collections">
                 <legend>Collections</legend>
                 {collections.map(collection => <label key={collection.id}>
                   <input type="checkbox" checked={current.collectionIds.includes(collection.id)}
                     onChange={event => changeProgress(selected.id, state => updateAnnotations(state, { collectionIds: event.target.checked
-                      ? [...state.collectionIds, collection.id] : state.collectionIds.filter(id => id !== collection.id) }))} />
+                      ? [...state.collectionIds, collection.id] : state.collectionIds.filter(id => id !== collection.id) }, new Date().toISOString()))} />
                   {collection.parentId ? '↳ ' : ''}{collection.title}
                 </label>)}
               </fieldset>

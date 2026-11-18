@@ -1,25 +1,19 @@
-# Scaffolding Validation Status (18 November 2026)
+# Development validation status (18 November 2026)
 
-## What was actually committed
-anime domain, local search and initial UI. Watchlists, episode progress storage and metadata providers are not implemented.
-All documentation and source changes are on branch `chore/ecosystem-foundation-20261118` (with a PR); inspect `master` for merge state.
+## Baseline verified from GitHub
+- `master` contains merged scaffold PR #1, commit `da399520ad558cbebf8336bbf35cecc3090816f2`.
+- Repository visibility was verified as **public** (previous documentation still described original private creation).
+- Workflow run [44256832495](https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44256832495) concluded failure with **zero job steps**. GitHub job step query returned an empty array and archived job logs were unavailable. This is **not** evidence of failed tests.
+- Branch `feature/anime-episode-tracker-20261118` adds synthetic domain progress, UI and tests, with no production data.
 
-## Automated checks: blocked before execution
-GitHub Actions marked the PR checks **failure** on 18 November 2026 and returned **zero executed job steps / no runner logs**. That means **no typecheck, test, build or security check ran**. It is misleading to call these code/test failures or passing checks. The underlying scheduling/permissions/billing cause has not been verified by this session.
+## Validation limits
+- The working tool environment has Node.js v22.16.0 and npm 10.9.2, but cannot resolve the npm registry (DNS error EAI_AGAIN). A complete trusted checkout plus dependency install was not possible there.
+- Consequently `npm install`, `npm run typecheck`, `npm test`, and `npm run build` have **not** completed successfully for this branch. No passing claim is made.
+- `package-lock.json` is missing and CI currently uses `npm install`. Run a trusted Node 22 install, commit the generated lockfile and change CI to `npm ci` in a subsequent dependency PR. Do not handcraft a fake lockfile.
+- No browser viewport or keyboard automation has been run yet.
 
-Example run: https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44255816427
+## Owner/runner investigation
+Check Actions Settings, account Actions policy/billing/usage and the job's pre-run annotations. Because zero steps ran, changing source tests or reducing security checks does not resolve the established symptom. Once runner access works, create a fresh PR run rather than treating stale failed runs as definitive.
 
-## Required next verification
-1. In GitHub Actions inspect the failed job's annotations and repository/account Actions usage, runner and billing settings. Only the owner can view some account-level details.
-2. Restore runner execution without disabling security gates. Re-run the PR workflow.
-3. Generate and commit an npm lockfile (`npm install` in a trusted clone), switch CI to `npm ci` and re-run all three scripts.
-4. Fix genuine code/type/test problems surfaced by the first completed run, then record evidence and SHA.
-5. Verify UI on a narrow mobile and desktop viewport before a production claim.
-6. Reinspect actual repo state; this status file is a dated snapshot, not permanent proof of failure.
-
-## Other known limitations
-- No private storage/auth, production deployment, image/video playback or provider integrations exist in the new scaffold.
-- Shared Core's workspace packages are not published and cannot be imported by independent repos yet.
-- GitHub About descriptions/topics have a documented, owner-run helper but are not programmatically applied.
-
-Do not enable automatic release or weaken a required quality gate merely to turn this result green.
+## Ready-to-run gates
+`npm install --no-audit --no-fund`, `npm run typecheck`, `npm test`, `npm run build`, followed by 320/375/390/768/1280px manual keyboard/mobile checks. Record exact job URL, SHA and observed results before merge or release.
