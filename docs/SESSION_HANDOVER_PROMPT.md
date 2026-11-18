@@ -15,11 +15,10 @@ This is ONE of five Taiyou repositories. Your session owns **only** this reposit
 Catalogue anime and reliably track watchlists, seasons, episodes and completion. Concentrate on:
 An anime may have alternate titles, OVAs, specials, separate seasons and numbering conventions. Episode labels are not global identifiers; watched status is per stable episode ID, not a single unreliable last-watched counter.
 
-Current scaffold is deliberately small: it has types, a local search function, tests, an empty catalogue and a responsive UI. There is **NO** live data, sign-in, media source integration, playback, cloud sync or deployment. Do not misrepresent these as implemented.
+The first feature branch now has three synthetic series, stable IDs, an episode checklist, local filters and annotations. Node 22 GitHub Actions runs 13 unit tests and 9 Chromium tests; see docs/VALIDATION_STATUS_2026-11-18.md. There is **NO** real private catalogue, sign-in, media source integration, playback, cloud sync or deployment. Do not misrepresent fixture editing as durable tracking.
 
-## Suggested first deliverable
-Catalogue views and explicit watchlist state transitions on in-memory fixtures. Define episode identity/numbering and canonical season mapping before storage sync.
-Acceptance: Tests for specials, missing episodes, season transitions, watched/unwatched toggling, and progress aggregation without marking unseen episodes watched.
+## Current handover and next milestone
+Review draft PR #2 and latest Actions results. The synthetic watch tracker is implemented and tested automatically, but awaits manual assistive-technology review and owner merge decision. Next, tackle issue #3: a versioned runtime import parser with validated IDs, safe size limits, lossless migration fixtures and rollback, **still synthetic-only**. Issue #4 tracks owner approval of storage, auth and metadata rights. Do not connect private services without that decision.
 
 ## Safety
 Preserve privacy and independent app operation if the hub is down. No real media/credentials in Git. No copyrighted-content scraping or paywall/DRM bypass. No cross-origin session assumptions. Keep stable IDs, typed migrations and revision-guarded personal writes when storage is added. Tests must run with synthetic fixtures and no paid API.

@@ -13,7 +13,7 @@ This repository owns anime domain, local search and initial UI. Refer to `AGENTS
 7. Merge only when acceptable under current owner policy and after correctly assessing CI outcomes. Record actual merge SHA and deployment separately.
 
 ## Local validation
-Node 22+, run `npm install`, `npm run typecheck`, `npm test`, `npm run build`. An initial lockfile is not yet committed; generate and commit it, then update CI to use `npm ci`.
+Node 22+, run `npm ci`, `npm run typecheck`, `npm test`, `npm run build`, `npx playwright install chromium`, `npm run test:e2e`. The lockfile is committed and CI uses `npm ci` on Ubuntu 24.04. Run all gates before review.
 
 ## Security and data
 No private media, real personal records, credentials, OAuth tokens or owner passphrases in Git, log files, PR descriptions, screenshots or client-exposed environment variables. Don't bypass access restrictions. Destructive data operations require explicit owner approval and verified backup/revision protection.

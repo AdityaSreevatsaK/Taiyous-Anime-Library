@@ -7,14 +7,14 @@
 - [ ] Resolve GitHub runner preflight failure and verify executed CI
 - [x] Generate authentic Node 22 lockfile and switch to npm ci
 
-## Milestone 1: Synthetic anime watch tracker (feature branch, awaiting CI)
+## Milestone 1: Synthetic anime watch tracker (feature branch, automated CI passing)
 - [x] Stable IDs for anime/season/episode, specials, OVAs, ambiguous printed numbers and remasters
 - [x] Explicit immutable progress transitions and unit tests
 - [x] Three fictional series, multi-season details, watched toggles and status/genre/search filters
 - [x] In-memory rating, comment, tags and collections
 - [x] Mobile-responsive styles and visible keyboard focus
-- [ ] Execute full typecheck/test/build and browser keyboard/mobile matrix
-- [ ] Peer review and merge after passing gates
+- [x] Execute Node 22 typecheck, 13 unit tests, build and 9 Chromium browser/viewport tests
+- [ ] Peer review and merge after manual accessibility review and owner acceptance
 
 ## Milestone 2: Honest persistence design
 - [ ] Approve storage/auth and metadata ADRs

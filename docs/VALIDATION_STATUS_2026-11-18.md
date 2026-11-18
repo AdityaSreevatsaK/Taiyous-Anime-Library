@@ -1,18 +1,27 @@
-# CI and build evidence (18 November 2026)
+# Verification record: Anime Library, 18 November 2026
 
-## Verified baseline
-- Original master scaffold SHA: `da399520ad558cbebf8336bbf35cecc3090816f2`.
-- Repository is public; initial pre-run failures did not execute quality steps.
-- [First running CI job](https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44315716814) **passed** Node 22 install, TypeScript, 13 Vitest tests in 3 files and Vite production build (586ms).
-- [Browser-gate introduction run](https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44316183474) installed dependencies and passed typecheck, then failed because Vitest picked up Playwright's e2e/anime.spec.ts. This was a **test-discovery configuration error**, not evidence of failed browser interactions.
-- During that runner installation, a lockfileVersion 3 package-lock.json was generated and captured. It contains 142 package entries, including @playwright/test 1.56.1. The dependency PR update commits this exact generated lockfile and scopes Vitest to src/.
+## Current accepted automated evidence
+- Working branch: `feature/anime-episode-tracker-20261118`.
+- Passing code SHA: `f1823f5716cf062c02e4cac33ee11f843c1208e6`.
+- [GitHub Actions run 44317525755](https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44317525755): **SUCCESS**, all nine main quality steps completed.
+- Node.js 22, `npm ci --no-audit --no-fund` **passed** using the committed authentic npm lockfile.
+- `npm run typecheck` **passed**.
+- `npm test` **passed**: 13 Vitest tests in 3 test files.
+- `npm run build` **passed**: Vite 6.4.6, 518ms compile, 157.39kB JS / 50.57kB gzip and 8.16kB CSS / 2.64kB gzip.
+- `npx playwright install chromium` **passed** on Ubuntu 24.04.
+- `npm run test:e2e` **passed**: 9 real Chromium tests in 2.8s, including keyboard selection, no auto-backfill, specials, filters and viewport overflow at 320/375/390/768/1280px.
 
-## Current required gates
-- Fresh `npm ci` on Node 22.
-- `npm run typecheck`, `npm test` (Vitest src-only), `npm run build`.
-- Playwright Chromium installation and `npm run test:e2e`, covering keyboard/episodes/status/filters/fictional data and five viewport widths.
-- Check actual job status for the **newest** PR head SHA before claiming a passing browser gate.
-- Manual screen-reader and touch-target review is still required. No real-data or production deployment approval follows from green CI.
+## Root cause history and fixes
+- Initial scaffold failures pre-dated any runner step; later GitHub Actions runs executed normally. The precise original account policy cause was not independently confirmed.
+- First Playwright attempt was discovered by Vitest and failed. The Vitest script now runs only src tests.
+- Ubuntu-latest resolved to Ubuntu 26.04, unsupported by Playwright 1.56.1. CI pins Ubuntu 24.04.
+- A Playwright install with --with-deps stalled in a later attempt; the final passing run uses system-provided dependencies plus a pinned Chromium download.
+- A real Node 22 runner generated package-lock.json (lockfileVersion 3, 142 package entries), which was committed before switching CI to npm ci. No lockfile was invented.
 
-## Boundaries
-Synthetic state only; no private cloud data, authenticated user, metadata service, streaming, sync, source scraping or live release. Do not represent checks of a synthetic app as production security acceptance.
+## Outstanding non-automated acceptance
+- Manual screen-reader review, focus order using real assistive technology, touch-target and contrast checks on actual mobile devices.
+- Security checks for **future** private APIs, backup/restore, CSRF, storage conflicts and malicious import validation are unimplemented until the corresponding integrations are authorised.
+- No authentication, cloud persistence, metadata provider access, real posters, streaming or production deployment exists.
+
+## Merge policy
+PR #2 can be reviewed against these actual results. Do not conflate the passing synthetic-app CI with production readiness or approval to connect private accounts. Keep the app independent of the Hub.

@@ -4,7 +4,7 @@
 A polished, warm editorial personal library. Prefer restrained surfaces, strong media cover art, generous spacing and consistent hierarchy over dashboards filled with controls. The existing Novel Library is inspiration only; do not copy its full implementation wholesale.
 
 ## Starter tokens
-Current `src/styles.css` uses a dark navy surface (#101b2b), deeper panels (#192b40), light text and muted gold (#d7ba80). These are **starter tokens**, not a final universal theme API. Future themes (sepia, light, dark, plum) require semantic CSS variables, contrast checks and explicit owner approval.
+Current synthetic demo styles use a navy background (#0e1724), slate panels (#172536), light text and warm amber accents (#e7be81). These are **local starter colours**, not a published cross-app theme API. Future themes (sepia, light, dark, plum) require semantic CSS variables, contrast checks and explicit owner approval.
 
 ## Layout and responsiveness
 Build mobile first: 320px, 375px, 390px phones; 768px tablet; 1280/1440/1920 desktop. Maintain touch targets of about 44 CSS pixels where practical. Avoid horizontal scrolling, fixed-width modal overflow, clipped tooltips, cramped shelf layouts and controls stacked beside long titles. Preserve aspect ratios of legitimate covers. Use scrollable dialogs with a visible Close action and escape/focus management.

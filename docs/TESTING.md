@@ -12,7 +12,7 @@ Node 22+: `npm ci`, `npm run typecheck`, `npm test`, `npm run build`, `npx playw
 - Per-series known watched counts, unknown progress IDs retained for future reconciliation.
 - Ratings within 1–10, tag de-duplication and comments handled as React text.
 
-## Automated browser coverage (Playwright; verify per CI commit)
+## Automated browser coverage (Playwright; 9 passed on run 44317525755)
 1. Chromium checks for horizontal overflow at 320, 375, 390, 768 and 1280px. Manual contrast and touch-target review is still required.
 2. Tab through the catalogue, choose series by Enter/Space, change filters by keyboard, open each season via Enter/Space, toggle checkboxes and edit notes. Focus rings must be visible.
 3. Confirm a filtered-out selected series does not leak data across series; refresh resets all in-memory edits as clearly stated.
@@ -23,3 +23,5 @@ Node 22+: `npm ci`, `npm run typecheck`, `npm test`, `npm run build`, `npx playw
 Runtime import validation, error/loading/offline behaviour, real-device/browser automation, revision-conflict integration tests, authorisation/CSRF/security tests, dependency audit and backup restore. No deployment without owner approval.
 
 Vitest is deliberately scoped to `src/` and Playwright to `e2e/`; never let the two runners discover each other's tests.
+
+Evidence: [GitHub Actions 44317525755](https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library/actions/runs/44317525755). An automated viewport pass does not substitute for manual device and assistive-technology verification.
