@@ -13,15 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-audit --no-fund
-      # One-time, branch-only lockfile retrieval before switching to npm ci.
-      # JSON contains public dependency metadata only, no user records or secrets.
-      - name: Capture generated lockfile for review
-        if: github.head_ref == 'feature/anime-episode-tracker-20261118'
-        run: |
-          echo LOCKFILE_CAPTURE_BEGIN
-          cat package-lock.json
-          echo LOCKFILE_CAPTURE_END
+          cache: npm
+      - run: npm ci --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
       - run: npm run build

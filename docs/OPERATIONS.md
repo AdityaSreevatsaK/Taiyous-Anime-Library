@@ -7,16 +7,18 @@ Node.js 22+, Git, a recent Chromium browser and editor. Supported baseline OS: W
 ~~~powershell
 git clone https://github.com/AdityaSreevatsaK/Taiyous-Anime-Library.git
 cd Taiyous-Anime-Library
-npm install
+npm ci
 npm run typecheck
 npm test
 npm run build
+npx playwright install chromium
+npm run test:e2e
 npm run dev
 ~~~
-Use the local URL printed by Vite. The catalogue is intentionally empty; this is expected. If a step fails, inspect the error and Node version; do not suppress type failures or remove tests to pass CI.
+Use the local URL printed by Vite. The catalogue is synthetic only and resets after a refresh. If a step fails, inspect the error and Node version; do not suppress type failures or remove tests to pass CI.
 
 ## Dependency lock and deterministic installation
-At repository creation, no lockfile was committed. `npm install` generates `package-lock.json`. **Commit it in the first dependency-management PR**, then change CI to `npm ci`. Until then, CI uses `npm install --no-audit --no-fund` with pinned major/minor dependency ranges. Revisit advisories and lockfile integrity before any release. Never install uncontrolled latest packages in deployment.
+A genuine Node 22 GitHub Actions npm install generated the committed `package-lock.json` (lockfileVersion 3), including Playwright. CI and new checkouts now use `npm ci --no-audit --no-fund`; review integrity and advisories before releases. To intentionally update dependencies, use trusted `npm install`, inspect the lockfile diff and execute all gates.
 
 ## Branches and PRs
 `master` is the authoritative planned release branch. Use `feature/<topic>` or `fix/<topic>` from latest master. Keep scope narrow. Include problem statement, exact files, threat/sync impact, tests, screenshots if UI changed and rollback. Avoid editing unrelated repositories. Do not force push master.

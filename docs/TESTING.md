@@ -1,7 +1,7 @@
 # Test strategy and quality gates
 
 ## Commands
-Node 22+: `npm install`, `npm run typecheck`, `npm test`, `npm run build`. Commit a genuine generated lockfile before switching to `npm ci`. The branch has no verified passing CI or browser E2E yet; see [validation status](VALIDATION_STATUS_2026-11-18.md).
+Node 22+: `npm ci`, `npm run typecheck`, `npm test`, `npm run build`, `npx playwright install chromium`, `npm run test:e2e`. CI verifies typecheck, Vitest and a real Chromium run with keyboard and 320/375/390/768/1280px viewport tests. See [validation status](VALIDATION_STATUS_2026-11-18.md) for exact results.
 
 ## Unit coverage added
 - Canonical immutable anime/season/episode IDs and cross-series collision detection.
@@ -12,8 +12,8 @@ Node 22+: `npm install`, `npm run typecheck`, `npm test`, `npm run build`. Commi
 - Per-series known watched counts, unknown progress IDs retained for future reconciliation.
 - Ratings within 1–10, tag de-duplication and comments handled as React text.
 
-## Manual accessibility matrix (pending)
-1. At 320, 375, 390, 768 and 1280px check no horizontal overflow, readable title/filters, visible form labels and 44px targets where practical.
+## Automated browser coverage (Playwright; verify per CI commit)
+1. Chromium checks for horizontal overflow at 320, 375, 390, 768 and 1280px. Manual contrast and touch-target review is still required.
 2. Tab through the catalogue, choose series by Enter/Space, change filters by keyboard, open each season via Enter/Space, toggle checkboxes and edit notes. Focus rings must be visible.
 3. Confirm a filtered-out selected series does not leak data across series; refresh resets all in-memory edits as clearly stated.
 4. Verify screen-reader announcement for status, checkboxes, counts and empty results. Check high contrast and reduced motion.
@@ -21,3 +21,5 @@ Node 22+: `npm install`, `npm run typecheck`, `npm test`, `npm run build`. Commi
 
 ## Future release gates
 Runtime import validation, error/loading/offline behaviour, real-device/browser automation, revision-conflict integration tests, authorisation/CSRF/security tests, dependency audit and backup restore. No deployment without owner approval.
+
+Vitest is deliberately scoped to `src/` and Playwright to `e2e/`; never let the two runners discover each other's tests.

@@ -5,7 +5,7 @@
 - [x] GitHub workflow declaration
 - [x] Read-only local search
 - [ ] Resolve GitHub runner preflight failure and verify executed CI
-- [ ] Generate authentic package-lock.json and switch to npm ci
+- [x] Generate authentic Node 22 lockfile and switch to npm ci
 
 ## Milestone 1: Synthetic anime watch tracker (feature branch, awaiting CI)
 - [x] Stable IDs for anime/season/episode, specials, OVAs, ambiguous printed numbers and remasters
