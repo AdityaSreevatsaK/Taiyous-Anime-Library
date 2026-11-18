@@ -39,7 +39,7 @@ Never ship a public build containing tokens. Prefer same-origin server functions
 Virtualise very large lists; decode media lazily; cap concurrent requests; back off failures; avoid state updates on every scroll tick; cache only assets that the user explicitly chooses for offline. Document performance budgets and measure with browser tooling before changing them.
 
 ## Deployment
-Current: **none configured**. The CI workflow is a quality gate, not a release path. A future Cloudflare Pages deployment will require manual consent, secure environment variables, unique per-app origin and tested rollback. Do not copy the Novel Library's one-shot deployment workflows.
+Current: **public synthetic UI on Cloudflare Pages**, https://taiyous-anime-library.pages.dev/, connected to GitHub with production branch `master`; Cloudflare handles static builds, while GitHub Actions runs independent quality checks. Git-triggered builds are **not automatically blocked by failed CI**. No Pages Functions, authentication, private dataset or real cloud persistence is implemented. Future protected functionality requires approved server-side secrets, per-app origin security and recovery/rollback tests. Do not copy the Novel Library's one-shot deployment workflows.
 
 ## Architecture review checklist
 Does each API preserve the identity/progress semantics? Can the app run if the hub is down? Does it expose private data in client bundles or public files? Are cross-origin auth assumptions explicit? Are destructive changes reversible? Are tests and rollback specified? If any answer is unclear, write an ADR before code.
