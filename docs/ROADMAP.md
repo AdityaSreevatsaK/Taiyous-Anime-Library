@@ -4,17 +4,19 @@
 - [x] React + TypeScript and independent repo
 - [x] GitHub workflow declaration
 - [x] Read-only local search
-- [ ] Resolve GitHub runner preflight failure and verify executed CI
+- [x] Resolve initial GitHub runner preflight failure and verify executed CI
 - [x] Generate authentic Node 22 lockfile and switch to npm ci
 
-## Milestone 1: Synthetic anime watch tracker (feature branch, automated CI passing)
+## Milestone 1: Synthetic anime watch tracker (merged, tested and publicly previewable)
 - [x] Stable IDs for anime/season/episode, specials, OVAs, ambiguous printed numbers and remasters
 - [x] Explicit immutable progress transitions and unit tests
 - [x] Three fictional series, multi-season details, watched toggles and status/genre/search filters
 - [x] In-memory rating, comment, tags and collections
 - [x] Mobile-responsive styles and visible keyboard focus
 - [x] Execute Node 22 typecheck, 13 unit tests, build and 9 Chromium browser/viewport tests
-- [ ] Peer review and merge after manual accessibility review and owner acceptance
+- [x] Merge feature PR #2 after passing automated tests
+- [x] Publish synthetic app through Cloudflare Pages Git integration at https://taiyous-anime-library.pages.dev/
+- [ ] Manual assistive-technology review and owner interface acceptance
 
 ## Milestone 2: Honest persistence design
 - [ ] Approve storage/auth and metadata ADRs
@@ -32,4 +34,4 @@
 - [ ] Optional parent Hub link; always standalone
 - [ ] Staging, full browser/security checks, rollback and owner release approval
 
-No streaming, scraping, paid APIs, real private data, media assets or cloud deployment is authorised by this roadmap.
+Only the **fictional public Cloudflare Pages UI** has been approved and deployed. Streaming, scraping, paid APIs, private user data, media assets and private cloud backend integration remain out of scope.

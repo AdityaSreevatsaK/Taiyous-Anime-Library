@@ -13,7 +13,7 @@
 **Status: accepted.** Shared code starts experimental and private; do not install mutable local imports from other repositories or deploy runtime Shared Core dependencies.
 
 ## ADR-005: Never fake shipped functionality
-**Status: accepted.** Unconfigured storage and playback are visibly labelled planned; no fake demo results in production; CI runs without secrets and no automatic release.
+**Status: accepted.** Unconfigured storage and playback are visibly labelled planned; demo results are explicitly fictional; CI runs without secrets. Cloudflare's **public synthetic demo** may auto-deploy from `master`, but private storage, media and a tagged release still require separate review.
 
 ## Open decisions
 - D-01: approved private storage provider, data sizes and cost/retention.
@@ -21,7 +21,7 @@
 - D-03: data schema version, backup/restore and offline cache policy.
 - D-04: provider metadata rights, rate limits, attribution and artwork handling.
 - D-05: when to consume a pinned Shared Core release.
-- D-06: first controlled staging/deployment domain and rollback.
+- D-06: first controlled **private** deployment, environment separation and rollback. The public synthetic UI is already hosted by Cloudflare Pages Git integration.
 
 ### ADR template
 Create `docs/adr/NNN-title.md` with: Status; Date; Problem; Options and cost; Decision; Rationale; Data/security impact; Compatibility/migration; Rollback; Tests; Owner approval. Never silently re-decide an accepted ADR.

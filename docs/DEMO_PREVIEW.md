@@ -1,32 +1,36 @@
-# Public synthetic preview (GitHub Pages)
+# Public Anime Library demonstration (Cloudflare Pages)
 
-## Purpose
-Display the **fictional, in-memory** Anime Library interface on desktop and mobile. The actual future private catalogue and watch history must **never** be hosted as a public static site.
+## Live preview and ownership
 
-## Publishing
-The opt-in workflow `.github/workflows/pages-demo.yml` is triggered once when merged to `master` and later only when the owner explicitly selects **Actions > Publish synthetic Anime Library preview > Run workflow**. Regular code changes do not automatically republish the demo.
+**Live domain (owner-confirmed from deployment screenshots, 18 November 2026):** https://taiyous-anime-library.pages.dev/
 
-GitHub requires the repository's **Settings > Pages > Build and deployment > Source** to be set to **GitHub Actions**. If this is not enabled, `actions/configure-pages` may fail. The connected GitHub integration cannot change this setting directly. After enabling, run the preview workflow again.
+This is the standalone Anime application with three **fictional** anime and entirely in-memory watch progress. It is **public**, not a private account or personal history service. There is no streaming player, authorised media API or video upload.
 
-Expected demo address **after successful deployment**, not a verified live URL until the deployment action succeeds:
+## Deployment architecture
 
-https://AdityaSreevatsaK.github.io/Taiyous-Anime-Library/
+- **Hosting/build:** Cloudflare Pages connected directly to GitHub repository `AdityaSreevatsaK/Taiyous-Anime-Library` through Git integration.
+- **Production branch:** `master`.
+- **Framework:** React (Vite), Node.js 22, build command `npm run build`, output `dist`, repository root `/`.
+- **GitHub Actions:** `.github/workflows/ci.yml` performs independent typechecking, 13 unit tests, build and 9 Chromium browser tests. It **does not** deploy or store Cloudflare deployment credentials.
+- **Production updates:** Cloudflare Pages Git integration may deploy **every push to `master`**, regardless of the GitHub Actions outcome. For release quality, require passing branch checks before merge and verify deployed results. Cloudflare branch/PR previews may also be public.
+- **No GitHub Pages:** The former GitHub Pages publication workflow was retired after the Cloudflare launch. GitHub repository Settings > Pages can be disabled if enabled solely for that abandoned preview.
 
-The Vite build uses `--base=/Taiyous-Anime-Library/` only for the preview; normal local development retains its default root URL.
+## Safety boundary
 
-## What is safe to show
-- Three entirely fictional anime, aliases, seasons, regular episodes, OVAs and specials.
-- Temporary watched episode checkboxes, statuses, notes, tags and collections.
-- A prominent **Synthetic demo** label and reset-on-refresh warning.
-- No authentication, no backend, no external metadata calls, no copyrighted covers, no streaming and no uploaded videos.
+- All fixture anime and progress are fictional; changes reset upon refresh.
+- No Hugging Face storage, private catalogue, account login, cross-device persistence, licensed video or copyrighted cover data.
+- Never commit credentials or private datasets. Vite `VITE_*` environment values are public in built browser JavaScript.
+- Before adding private services, adopt a reviewed authenticated Pages Functions backend, revision-safe storage and a separately tested data migration/backup plan. A public site must not expose unprotected personal history APIs.
 
-The published site is **publicly accessible**. It is not a private member-only preview, even if another part of the ecosystem later authenticates users. Do not add private records, tokens, imported personal watchlists, private video files or real personal metadata to the source.
+## Manual acceptance test
 
-## Feedback
-Use any desktop/mobile browser to test search, episode toggles, status, notes, specials and 320px mobile layout. Upload screenshots or short **screen recordings of the interface** in the engineering conversation to illustrate bugs. The current application cannot play videos; video-player testing requires a separate approved, rights-respecting milestone.
-
-## Cost and security
-Public-repository GitHub Pages hosting is available at **₹0 / US$0** on the GitHub Free tier, subject to published GitHub usage limits and any separately billed account features. No paid API or cloud secret is needed.
+1. Open the domain on desktop and mobile and verify the *Synthetic demo* disclaimer.
+2. Search by series title/alias, filter by watch status and genre, switch series, expand seasons and specials.
+3. Mark one episode watched; verify unaffected episodes stay unchanged.
+4. Edit status/rating/tags/comments, refresh, and confirm that **all state intentionally resets**.
+5. Verify keyboard focus, narrow viewport layout, console errors and that no unexpected private network requests occur.
+6. Send screenshots or **screen recordings of the browser interface** for bug reports. Recorded videos are feedback; video playback is not yet an implemented Anime feature.
 
 ## Rollback
-Disable the published site from **Settings > Pages**, or remove `.github/workflows/pages-demo.yml` and unpublish it. Removing the workflow alone does not automatically unpublish already-deployed Pages content. Never treat the public preview as a secure private data service.
+
+In Cloudflare Workers & Pages > `taiyous-anime-library` > Deployments, inspect the failing deployment and roll back to the last known good version using the dashboard's deployment controls. For a code fault, revert the offending commit via a reviewed PR. Disabling or deleting a Cloudflare project makes the site unavailable; deleting the GitHub workflow does not do that.
